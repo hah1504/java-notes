@@ -124,6 +124,23 @@ Example - the following casts an integer to byte
 		```
 - Java does not support pointers because of security reasons.  Java cannot allow pointers, because doing so would allow Java programs to breach the firewall between the Java execution environment and the host computer. (Remember, a pointer can be given any address in memory—even addresses that might be outside the Java run-time system.)
 - The _expression_ in switch statements must be one of the following types - byte, short, int, char, enumeration, 
+- Nested swithc statements are possible in Java
+- Difference between switch and if-else statements: switch can only test for equality, whereas if-else can evaluate any boolean expression. 
+- A switch statement is generally more effifient than nested **if**s.  When it compiles a switch statement, the Java compiler will inspect each of the case constants and create a “jump table” that it will use for selecting the path of execution depending on the value of the expression. Therefore, if you need to select among a large group of values, a switch statement will run much faster than the equivalent logic coded using a sequence of if-elses. 
+- In java **,** is not an operator, it is a seperator
+- For-each loop: It has the following syntax `for(type itr-var : collection) statement-block`. One thing to note about for-each loops, is that they are just for iterating the entire array, we cannot change array elements using this loop
+	```java
+	int nums[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+	for(int x: nums) {
+	System.out.print(x + " ");
+	x = x * 10; // no effect on nums
+	}
+	```
+	- [For-each Program]()
+- Uses of **break** statement
+	- exiting loops
+	- in switch statements
+	- as a form of GOTO
 
 
 
@@ -132,7 +149,7 @@ Example - the following casts an integer to byte
 ## List of Programs
 - [Hello World program]('')
 - [Arrays Program]('')
-
+- [For-each Program]()
 
 
 
