@@ -141,6 +141,37 @@ Example - the following casts an integer to byte
 	- exiting loops
 	- in switch statements
 	- as a form of GOTO
+- classes define a new data-type. Once defined we can use this new type to create objects of that type. 
+- class is a template for an object. An object is instance of class
+- The **new** operator dynamically allocates memory for an objevt and returns a reference to it.
+- In java all objects are dynamically allocated
+- A constructor defines what happens when an object of a class is created.
+- **new** allocated memory for an object during run-time
+- `Box myBox;`, here a reference variable of type Box is created. `myBox = new Box();`, here memory is allocated to the reference variable. [Understanding reference variables](). When you assign one object reference variable to another object reference variable, you are not creating a copy of the object, you are only making a copy of the reference.
+- Facts about **constructors**
+  - initializes an object immediately upon creation
+  - it has the same name as the class
+  - syntactically similar to a method
+  - they do not have any return type, not even void, this is because the implicit return type of a class' constructor is the class itself. [Box With Constructor]()
+- uses of **this** keyword
+  - __this__ can be used inside any method to refer to the current method
+  - this is always a reference to the object on which the method was invoked
+- Instance variable hiding. [Instance Variable Hiding]()
+  - when a local variable has the same name as an instance variable, the local variable hides the instance variable.
+- How **garbage collection**(GC) works in java?
+  -  when no references to an object exist, that object is assumed to be no longer needed, and the memory occupied by the object can be reclaimed.
+  -  There is no explicit need to destroy objects as in C++
+  -  the GC is invoked sporadically and not at any particular or regular intervals. You do not need to worry about GC while writing Java programs
+  -  the **finalize()** methods is used to performs some action befor the object is destroyed. 
+     -  By using finalization, you can define specific actions that will occur when an object is just about to be reclaimed by the garbage collector.
+     -  To add a finalizer to a class, you simply define the finalize( ) method. The Java run time calls that method whenever it is about to recycle an object of that class. Inside the finalize( )method, you will specify those actions that must be performed before an object is destroyed.
+     -  It is important to understand that finalize( ) is only called just prior to garbage collection. It is not called when an object goes out-of-scope
+     -  This means that you cannot know when—or even if—finalize( ) will be executed.  Therefore, your program should provide other means of releasing system resources, etc., used by the object. It must not rely on finalize( ) for normal program operation.
+     -  
+
+
+
+
 
 
 
@@ -150,6 +181,9 @@ Example - the following casts an integer to byte
 - [Hello World program]('')
 - [Arrays Program]('')
 - [For-each Program]()
+- [Understanding reference variables]()
+- [Box With Constructor]()
+- [Instance Variable Hiding]()
 
 
 
