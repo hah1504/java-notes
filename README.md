@@ -6,34 +6,34 @@ Reference materials
 
 ## Plan - Cover the following topics
 ### Easy Topics
-- Java Buzzwords
-- Three OOP principles
+- Java Buzzwords ✅
+- Three OOP principles✅
 	- Inheritance
 	- Encapsulation
 	- Polymorphism
 	- Abstraction
-- primitive types in java
-- type conversion and casting
-- Java arrays(initializing and declaration)
+- primitive types in java✅
+- type conversion and casting✅
+- Java arrays(initializing and declaration)✅
 	- 2-d arrays
-- Operators (just skim through the operators)
-- control flow statements
+- Operators (just skim through the operators)✅
+- control flow statements✅
 	- for-each loop
-- Class Fundamentals
+- Class Fundamentals✅
 	- what is a class?
 	- what are objects?
 	- declaring a class
 	- what are methods
 	- constructor
-- **this** keyword
+- **this** keyword✅
 	- Instance Variable Hiding
-- garbage collection
-- finalize() method
-- method overloading
-- constructor overloading
-- **static** keyword
-- access control
-- **final** keyword
+- garbage collection✅
+- finalize() method✅
+- method overloading✅
+- constructor overloading✅
+- **static** keyword✅
+- access control✅
+- **final** keyword✅
 - Nested and inner classes
 - using command line arguments
 - variable length argument
@@ -167,7 +167,39 @@ Example - the following casts an integer to byte
      -  To add a finalizer to a class, you simply define the finalize( ) method. The Java run time calls that method whenever it is about to recycle an object of that class. Inside the finalize( )method, you will specify those actions that must be performed before an object is destroyed.
      -  It is important to understand that finalize( ) is only called just prior to garbage collection. It is not called when an object goes out-of-scope
      -  This means that you cannot know when—or even if—finalize( ) will be executed.  Therefore, your program should provide other means of releasing system resources, etc., used by the object. It must not rely on finalize( ) for normal program operation.
-     -  
+     -  [Finalize example]()
+     -  The finalize( ) method only approximates the function of a destructor. 
+-  Method Overloading
+   -  2 or more methods with the same name but different parameter declarations
+   -  Java uses the type and/or number of arguments as its guide to determine which version of the overloaded method to actually call
+   -  the return type alone is insufficient to distinguish two versions of a methods[Method Overloading 1]()
+   -  Method overloading supports **polymorphism** because it is one way that Java implements the “one interface, multiple methods” paradigm. 
+-  Parameter passing in java
+   -  When you pass a primitive type to a method, it is passed by value. 
+   -  When you pass an object to a method, those objects are passed by what is effectively call-by-reference. This is because when you create a variable of a class type, you are only creating a reference to an object. [Call by reference]()
+-  Java supports recursion.[Tower of Hanoi]('')
+-  **Access Control**
+   -  Encapsulation provides _access control_
+   -  Through encapsulation, you can control what parts of a program can access the members of a class. 
+   -  How a member can be accessed is determined by the access modifier attached to its declaration. Java supplies a rich set of access modifiers. Some aspects of access control are related mostly to inheritance or packages. (A package is, essentially, a grouping of classes.) These parts of Java’s access control mechanism will be discussed later. Here, let’s begin by examining access control as it applies to a single class. Once you understand the fundamentals of access control, the rest will be easy.
+   -  `public` modifier
+      -  When a member of a class is modified by public, then that member can be accessed by any other code. 
+      -  When no access modifier is used, then by default the member of a class is public within its own **package**, but cannot be accessed outside of its **package**.
+   -  `private` modifier
+      -  When a member of a class is specified as private, then that member can only be accessed by other members of its class. 
+-  `static` members. [Using static]()
+   -  a class member that will be used independently of any object of that class.
+   -  To create such a member, precede its declaration with the keyword `static`.
+   -  You can declare both methods and variables to be static.   
+   -  The most common example of a static member is main( ). main( ) is declared as static because it must be called before any objects exist.
+   -  **Instance variables declared as static are, essentially, global variables. When objects of its class are declared, no copy of a static variable is made. Instead, all instances of the class share the same static variable.**
+   -  Methods declared static have the following restrictions
+      -  They can only directly call other static methods.`using_static.java:20: error: non-static method hello() cannot be referenced from a static context`
+      -  They can only directly access static data. `using_static.java:19: error: non-static variable c cannot be referenced from a static context`
+      -  They cannot refer to `this` or `super` in any way. 
+   -  If you need to do computation in order to initialize your static variables, you can declare a static block that gets executed exactly once, when the class is first loaded.
+   -  Outside of the class in which they are defined, static methods and variables can be used independently of any object. To do so, you need only specify the name of their class followed by the dot operator. For example, if you wish to call a static method from outside its class, you can do so using the following general form: `classname.method( )`. A static variable can be accessed in the same way—by use of the dot operator on the name of the class. This is how Java implements a controlled version of global methods and global variables.
+   -  
 
 
 
@@ -178,13 +210,16 @@ Example - the following casts an integer to byte
 
 
 ## List of Programs
-- [Hello World program]('')
-- [Arrays Program]('')
-- [For-each Program]()
-- [Understanding reference variables]()
-- [Box With Constructor]()
-- [Instance Variable Hiding]()
+- [Hello World program]('https://github.com/zed1025/java-notes/blob/master/HelloWorld.java')
+- [Arrays Program]('https://github.com/zed1025/java-notes/blob/master/arrays.java')
+- [For-each Program]('https://github.com/zed1025/java-notes/blob/master/for_each.java')
+- [Understanding reference variables]('https://github.com/zed1025/java-notes/blob/master/understanding_reference_variables.java')
+- [Box With Constructor]('https://github.com/zed1025/java-notes/blob/master/box_with_constructor.java')
+- [Instance Variable Hiding]('https://github.com/zed1025/java-notes/blob/master/instance_variable_hiding.java')
+- [Finalize example]()
+- [Method Overloading 1]()
+- [Call by reference]()
 
 
 
-pallavi - 846002004n5
+<!-- pallavi - 846002004n5 -->
