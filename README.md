@@ -422,7 +422,9 @@ https://github.com/zed1025/java-notes/blob/master/.java
 - [Method Overriding 1](https://github.com/zed1025/java-notes/blob/master/method_overriding1.java)
 - [Overriding Overloading](https://github.com/zed1025/java-notes/blob/master/overriding_overloading.java)
 - [Dynamic Methods Dispatch](https://github.com/zed1025/java-notes/blob/master/dynamic_method_dispatch.java)
-- 
+- [Dynamic Methods Dispatch Practical](https://github.com/zed1025/java-notes/blob/master/dynamic_method_dispatch_practical.java)
+- [Abstract Class Example 1](https://github.com/zed1025/java-notes/blob/master/abstract_class1.java)
+- [Practical Example of Abstract class](https://github.com/zed1025/java-notes/blob/master/abstract_class_practical.java)
 
 
 
