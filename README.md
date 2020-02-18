@@ -34,9 +34,9 @@ Reference materials
 - **static** keyword✅
 - access control✅
 - **final** keyword✅
-- Nested and inner classes
-- using command line arguments
-- variable length argument
+- Nested and inner classes✅
+- using command line arguments✅
+- variable length argument✅
 - inheritance
 - golden rule - super class variable can access a subclass object
 - types of inheritance supported in Java
@@ -238,10 +238,10 @@ Example - the following casts an integer to byte
      4. Useful in event handling
   - Most commounly inner classes are declared as members within an outer class scope, but it is possible to define inner classes within any block scope. For example, you can define a nested class within the block defined by a method or even within the body of a for loop. [Inner Class Block Scope](https://github.com/zed1025/java-notes/blob/master/inner_class_block_scope.java)
 - [Why are java strings immutable?](https://javarevisited.blogspot.com/2010/10/why-string-is-immutable-or-final-in-java.html)
-  - _Some_ useful string methods
-    - `boolean equals(secondStr)`, You can test two strings for equality
-    - `int length( )`, You can obtain the length of a string 
-    - `char charAt(index)`, You can obtain the character at a specified index within a string
+- _Some_ useful string methods
+  - `boolean equals(secondStr)`, You can test two strings for equality
+  - `int length( )`, You can obtain the length of a string 
+  - `char charAt(index)`, You can obtain the character at a specified index within a string
 - Using **command-line-arguments** in java
   - used to pass information into a program when you run it
   - To access the command-line arguments inside a Java program is quite easy—they are stored as strings in a String array passed to the args parameter of main( )
@@ -257,13 +257,25 @@ Example - the following casts an integer to byte
   -  There is one more restriction to be aware of: **there must be only one varargs parameter**. For example, this declaration is also invalid: `int doIt(int a, int b, double c, int ... vals, double ... morevals) { // Error!`.
   -  You can overload a method that takes a variable-length argument. [Overloaded Varargs](https://github.com/zed1025/java-notes/blob/master/var_len_arg2.java)
   -  A varargs method can also be overloaded by a non-varargs method. 
+- Inheritance intro
+  - allows creation of hierarchical classifications
+  - Using inheritance, you can create a general class that defines traits common to a set of related items. This class can then be inherited by other, more specific classes, each adding those things that are unique to it.
+  - In the terminology of Java, a class that is inherited is called a _superclass_. The class that does the inheriting is called a _subclass_.
+  - Therefore, a subclass is a specialized version of a superclass.
+- To inherit a class, you simply incorporate the definition of one class into another by using the `extends` keyword. [Inheritance Basic 1](https://github.com/zed1025/java-notes/blob/master/inheritance1.java)
+- **Java does not support the inheritance of multiple superclasses into a single subclass**. You can, create a hierarchy of inheritance in which a subclass becomes a superclass of another subclass. However, no class can be a superclass of itself.
+- Although a subclass includes all of the members of its superclass, it cannot access those members of the superclass that have been declared as `private`.
+- A class member that has been declared as private will remain private to its class. It is not accessible by any code outside its class, including subclasses.
+- A _Superclass_ variable can reference a _Subclass_ object
+  - A reference variable of a superclass can be assigned a reference to any subclass derived from that superclass.
+  - [Reference Demo](https://github.com/zed1025/java-notes/blob/master/RefDemo.java) 
 
 
 
 
 
 
-
+https://github.com/zed1025/java-notes/blob/master/.java
 
 
 ## List of Programs
@@ -283,6 +295,8 @@ Example - the following casts an integer to byte
 - [Inner Class Block Scope](https://github.com/zed1025/java-notes/blob/master/inner_class_block_scope.java)
 - [Variable Argument 1](https://github.com/zed1025/java-notes/blob/master/var_len_arg1.java)
 - [Overloaded Varargs](https://github.com/zed1025/java-notes/blob/master/var_len_arg2.java)
+- [Inheritance Basic 1](https://github.com/zed1025/java-notes/blob/master/inheritance1.java)
+- [Reference Demo](https://github.com/zed1025/java-notes/blob/master/RefDemo.java)
 
 
 
