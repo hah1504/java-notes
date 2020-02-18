@@ -304,7 +304,7 @@ Example - the following casts an integer to byte
   - Multilevel Inheritance
   - Heirarchial Inheritance
   - Hybrid Inheritance
-  - Multiple Inheritance <p style="color: red;"><b>NOT SUPPORTED</b></p>
+  - Multiple Inheritance (**NOT SUPPORTED**)
 - Order of evaluation of constructors
   - When a class hierarchy is created, in what order are the constructors for the classes that make up the hierarchy executed? 
   - For example, given a subclass called B and a superclass called A, is A’s constructor executed before B’s, or vice versa?
@@ -385,6 +385,137 @@ Example - the following casts an integer to byte
 - All classes in Java are subclasses of the `Object` class. 
   - This means that a reference variable of type Object can refer to an object of any other class. 
   - Also, since arrays are implemented as classes, a variable of type Object can also refer to any array.
+- **Packages** Intro
+  - packages are containers for classes
+  - They are used to keep the class name space compartmentalized.
+  - For example, a package allows you to create a class named List, which you can store in your own package without concern that it will collide with some other class named List stored elsewhere.
+  - The package is both a naming and a visibility control mechanism. 
+  - You can define classes inside a package that are not accessible by code outside that package. You can also define class members that are exposed only to other members of the same package. 
+  - To create a package is quite easy: simply include a `package` command as the first statement in a Java source file.  Any classes declared within that file will belong to the specified package. 
+  - The package statement defines a name space in which classes are stored. If you omit the package statement, the class names are put into the _default_ package, which has no name.
+  - Syntax: `package MyPackage;`
+  - Java uses file system directories to store packages.
+  - You can create a hierarchy of packages. To do so, simply separate each package name from the one above it by use of a period. The general form of a multileveled package statement is shown here: `package pkg1[.pkg2[.pkg3]]`;
+  - Finding packages: How does the Java run-time system know where to look for packages that you create?
+    - Java run-time system searches the current working directory.Thus, if your package is in a subdirectory of the current directory, it will be found.
+    - Second, you can specify a directory path or paths by setting the CLASSPATH environmental variable.
+    - Third, you can use the -classpath option with javaand javac to specify the path to your classes.
+  - See page 190, 191 to see how to run programs that use package
+  - ![](package_class_access.png)
+- **Interface** Intro
+  - Using the keyword interface, you can fully abstract a class’ interface from its implementation.
+  - That is, _using interface, you can specify what a class must do, but not how it does it_
+  - syntactically similar to classes but
+    -  they lack instance variables
+    -  their methods are declared without any body.
+    -  One class can implement multiple interfaces
+    -  To implement an interface, a class must provide the complete set of methods required by the interface. However, each class is free to determine the details of its own implementation. 
+    -  By providing the interface keyword, Java allows you to fully utilize the **“one interface, multiple methods”** aspect of _polymorphism_.
+    -  Interface Syntax
+      ```
+      access interface name {
+        return-type method-name1(parameter-list);
+        return-type method-name2(parameter-list);
+
+        type final-varname1 = value;
+        type final-varname2 = value;        
+        //...
+        return-type method-nameN(parameter-list);
+        type final-varnameN = value;
+      }
+      ```
+      - When no access modifier is included, then default access results
+      - Each class that includes such an interface must implement all of the methods.
+    - Beginning with JDK 8, it is possible to add a _default implementation_ to an interface method.
+    - variables can be declared inside of interface declarations. They are implicitly final and static, meaning they cannot be changed by the implementing class. They must also be initialized. All methods and variables are implicitly public.
+  - implementing interfaces
+    - use the `implements` clause
+    - syntax:
+      ```
+      class classname [extends superclass] [implements interface [,interface...]] {    
+        // class-body
+      }
+      ```
+    - example
+      ```
+      interface Callback {
+        void callback(int param);
+      }
+      ```
+    - If a class implements more than one interface, the interfaces are separated with a comma.
+    - If a class implements two interfaces that declare the same method, then the same method will be used by clients of either interface. _The methods that implement an interface must be declared_ `public`. Also, the type signature of the implementing method must match exactly the type signature specified in the interface definition.\
+    - **When you implement an interface method, it must be declared as public.**
+    - It is both permissible and common for classes that implement interfaces to define additional members of their own. 
+    - example: implementing interface
+      ```
+      class Client implements Callback {
+        // Implement Callbacks' interface, method must be public
+        public void callback(int p) {
+          System.out.println("callback called with " + p);
+        }
+
+        //we can also add non interface methods
+        void nonInterfaceMethod() {
+          System.out.println("Classes that implement interfaces " +"may also define other members, too.");
+        }
+      }
+      ```
+  - You can access implementations through interface reference
+  - When you call a method through one of these references, the correct version will be called based on the actual instance of the interface being referred to. This is one of the key features of interfaces. The method to be executed is looked up dynamically at run time, allowing classes to be created later than the code which calls methods on them. This process is similar to using a superclass reference to access a subclass object.
+  - The following example calls the callback( ) method via an interface reference variable:
+    ```
+    class TestIface {
+      public static void main(String[] args) {
+        Callback c = new Client();
+        c.callback(42);
+      }
+    }
+    ```
+    - Although c can be used to access the callback( ) method, it cannot access any other members of the Client class. An interface reference variable has knowledge only of the methods declared by its interface declaration. Thus, c could not be used to access nonIfaceMeth( ) since it is defined by Client but not Callback.
+- If a class includes an interface but does not fully implement the methods required by that interface, then that class must be declared as `abstract`.
+- **Nested Interface**
+  - An interface can be declared a member of a class or another interface. Such an interface is called a member interface or a nested interface. A nested interface can be declared as public, private, or protected. This differs from a top-level interface, which must either be declared as public or use the default access level, as previously described. When a nested interface is used outside of its enclosing scope, it must be qualified by the name of the class or interface of which it is a member. Thus, outside of the class or interface in which a nested interface is declared, its name must be fully qualified.
+  - [Nested Interface](https://github.com/zed1025/java-notes/blob/master/nested_interface.java)
+- One interface can inherit another by use of the keyword extends. 
+  - The syntax is the same as for inheriting classes.
+  - When a class implements an interface that inherits another interface, it must provide implementations for all methods required by the interface inheritance chain. 
+  - [Inheritance of Interfaces](https://github.com/zed1025/java-notes/blob/master/extending_interfaces.java)
+- Default Interface Methods
+  - A default method lets you define a default implementation for an interface method. In other words, by use of a default method, it is now possible for an interface method to provide a body, rather than being abstract. During its development, the default method was also referred to as an extensionmethod, and you will likely see both terms used
+  - It is important to point out that the addition of default methods does not change a key aspect of interface: its _inability_ to maintain state information.
+  - An interface still cannot have instance variables, for example
+  -  the defining difference between an interface and a class is that a class can maintain state information, but an interface cannot
+  -  An interface default method is defined similar to the way a method is defined by a class. The primary difference is that the declaration is preceded by the keyword `default`. 
+    ```
+    public interface MyIF { 
+      // This is a "normal" interface method declaration. 
+      // It does NOT define a default implementation. 
+      int getNumber(); 
+    
+      // This is a default method. Notice that it provides 
+      // a default implementation. 
+      default String getString() { 
+        return "Default String"; 
+      } 
+    }
+    ```
+  - We can use this interface as follows
+    ```
+    // Implement MyIF. 
+    class MyIFImp implements MyIF { 
+      // Only getNumber() defined by MyIF needs to be implemented. 
+      // getString() can be allowed to default. 
+      public int getNumber() { 
+        return 100; 
+      } 
+    }
+    ```
+- There is no workaround to implementing multiple inheritance in Java even using interfaces
+- Static Interface Methods
+  - Like static methods in a class, a static method defined by an interface can be called independently of any object. Thus, no implementation of the interface is necessary, and no instance of the interface is required, in order to call a static method. 
+  - Instead, a static method is called by specifying the interface name, followed by a period, followed by the method name. Here is the general form: `InterfaceName.staticMethodName`.
+  - static interface methods are _not inherited_ by either an implementing class or a subinterface
+
 
 
 
@@ -425,6 +556,8 @@ https://github.com/zed1025/java-notes/blob/master/.java
 - [Dynamic Methods Dispatch Practical](https://github.com/zed1025/java-notes/blob/master/dynamic_method_dispatch_practical.java)
 - [Abstract Class Example 1](https://github.com/zed1025/java-notes/blob/master/abstract_class1.java)
 - [Practical Example of Abstract class](https://github.com/zed1025/java-notes/blob/master/abstract_class_practical.java)
+- [Nested Interface](https://github.com/zed1025/java-notes/blob/master/nested_interface.java)
+- [Inheritance of Interfaces](https://github.com/zed1025/java-notes/blob/master/extending_interfaces.java)
 
 
 
