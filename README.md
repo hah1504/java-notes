@@ -113,7 +113,7 @@ Example - the following casts an integer to byte
 	- `int month_days[]` declares an array, but at this point no array actually exists
 	- To link the array with actual physical array of integers we allocate memory to it using **new** keyword. This is how its done. `month_days = new int[12]`.
 	- All arrays in java are dynamically allocated
-	- [Arrays Program]('')
+	- [Arrays Program](https://github.com/zed1025/java-notes/blob/master/arrays.java)
 	- declaring 2-d arrays. `int matrix[][] = new int[3][3];`. We can even declare the second dimension manually.
 		```
 		int twoD[][] = new int[4][];
@@ -136,7 +136,7 @@ Example - the following casts an integer to byte
 	x = x * 10; // no effect on nums
 	}
 	```
-	- [For-each Program]()
+	- [For-each Program](https://github.com/zed1025/java-notes/blob/master/for_each.java)
 - Uses of **break** statement
 	- exiting loops
 	- in switch statements
@@ -147,16 +147,16 @@ Example - the following casts an integer to byte
 - In java all objects are dynamically allocated
 - A constructor defines what happens when an object of a class is created.
 - **new** allocated memory for an object during run-time
-- `Box myBox;`, here a reference variable of type Box is created. `myBox = new Box();`, here memory is allocated to the reference variable. [Understanding reference variables](). When you assign one object reference variable to another object reference variable, you are not creating a copy of the object, you are only making a copy of the reference.
+- `Box myBox;`, here a reference variable of type Box is created. `myBox = new Box();`, here memory is allocated to the reference variable. [Understanding reference variables](https://github.com/zed1025/java-notes/blob/master/understanding_reference_variables.java). When you assign one object reference variable to another object reference variable, you are not creating a copy of the object, you are only making a copy of the reference.
 - Facts about **constructors**
   - initializes an object immediately upon creation
   - it has the same name as the class
   - syntactically similar to a method
-  - they do not have any return type, not even void, this is because the implicit return type of a class' constructor is the class itself. [Box With Constructor]()
+  - they do not have any return type, not even void, this is because the implicit return type of a class' constructor is the class itself. [Box With Constructor](https://github.com/zed1025/java-notes/blob/master/box_with_constructor.java)
 - uses of **this** keyword
   - __this__ can be used inside any method to refer to the current method
   - this is always a reference to the object on which the method was invoked
-- Instance variable hiding. [Instance Variable Hiding]()
+- Instance variable hiding. [Instance Variable Hiding](https://github.com/zed1025/java-notes/blob/master/instance_variable_hiding.java)
   - when a local variable has the same name as an instance variable, the local variable hides the instance variable.
 - How **garbage collection**(GC) works in java?
   -  when no references to an object exist, that object is assumed to be no longer needed, and the memory occupied by the object can be reclaimed.
@@ -167,17 +167,17 @@ Example - the following casts an integer to byte
      -  To add a finalizer to a class, you simply define the finalize( ) method. The Java run time calls that method whenever it is about to recycle an object of that class. Inside the finalize( )method, you will specify those actions that must be performed before an object is destroyed.
      -  It is important to understand that finalize( ) is only called just prior to garbage collection. It is not called when an object goes out-of-scope
      -  This means that you cannot know when—or even if—finalize( ) will be executed.  Therefore, your program should provide other means of releasing system resources, etc., used by the object. It must not rely on finalize( ) for normal program operation.
-     -  [Finalize example]()
+     -  [Finalize example](https://github.com/zed1025/java-notes/blob/master/finalize_example.java)
      -  The finalize( ) method only approximates the function of a destructor. 
 -  Method Overloading
    -  2 or more methods with the same name but different parameter declarations
    -  Java uses the type and/or number of arguments as its guide to determine which version of the overloaded method to actually call
-   -  the return type alone is insufficient to distinguish two versions of a methods[Method Overloading 1]()
+   -  the return type alone is insufficient to distinguish two versions of a methods[Method Overloading 1](https://github.com/zed1025/java-notes/blob/master/method_overloading_1.java)
    -  Method overloading supports **polymorphism** because it is one way that Java implements the “one interface, multiple methods” paradigm. 
 -  Parameter passing in java
    -  When you pass a primitive type to a method, it is passed by value. 
-   -  When you pass an object to a method, those objects are passed by what is effectively call-by-reference. This is because when you create a variable of a class type, you are only creating a reference to an object. [Call by reference]()
--  Java supports recursion.[Tower of Hanoi]('')
+   -  When you pass an object to a method, those objects are passed by what is effectively call-by-reference. This is because when you create a variable of a class type, you are only creating a reference to an object. [Call by reference](https://github.com/zed1025/java-notes/blob/master/call_by_reference.java)
+-  Java supports recursion.[Tower of Hanoi](https://github.com/zed1025/java-notes/blob/master/tower_of_hanoi.java)
 -  **Access Control**
    -  Encapsulation provides _access control_
    -  Through encapsulation, you can control what parts of a program can access the members of a class. 
@@ -187,7 +187,7 @@ Example - the following casts an integer to byte
       -  When no access modifier is used, then by default the member of a class is public within its own **package**, but cannot be accessed outside of its **package**.
    -  `private` modifier
       -  When a member of a class is specified as private, then that member can only be accessed by other members of its class. 
--  `static` members. [Using static]()
+-  `static` members. [Using static](https://github.com/zed1025/java-notes/blob/master/using_static.java)
    -  a class member that will be used independently of any object of that class.
    -  To create such a member, precede its declaration with the keyword `static`.
    -  You can declare both methods and variables to be static.   
@@ -199,7 +199,64 @@ Example - the following casts an integer to byte
       -  They cannot refer to `this` or `super` in any way. 
    -  If you need to do computation in order to initialize your static variables, you can declare a static block that gets executed exactly once, when the class is first loaded.
    -  Outside of the class in which they are defined, static methods and variables can be used independently of any object. To do so, you need only specify the name of their class followed by the dot operator. For example, if you wish to call a static method from outside its class, you can do so using the following general form: `classname.method( )`. A static variable can be accessed in the same way—by use of the dot operator on the name of the class. This is how Java implements a controlled version of global methods and global variables.
+-  `final`
+   -  A field can be declared as final. Doing so prevents its contents from being modified, making it, essentially, a constant.
+   -  you must initialize a final field when it is declared
+   -  both method parameters and local variables can be declared final. Declaring a parameter final prevents it from being changed within the method. Declaring a local variable final prevents it from being assigned a value more than once.
+   -  use of final with methods is related to inheritance.
    -  
+-  Arrays in java are implemented as objects. 
+   -  `arrName.length` gives the length of the array. the value of lengthhas nothing to do with the number of elements that are actually in use. It only reflects the number of elements that the array is designed to hold
+-  Nested and Inner classes
+   -  The Java programming language allows you to define a class within another class. Such a class is called a nested class and is illustrated here:
+		```
+		class OuterClass {
+			...
+			class NestedClass {
+				...
+			}
+		}
+		```
+   - Nested classes are divided into two categories: static and non-static. Nested classes that are declared static are called static nested classes. Non-static nested classes are called inner classes. 
+		```
+		class OuterClass {
+			...
+			static class StaticNestedClass {
+				...
+			}
+			class InnerClass {
+				...
+			}
+		}
+		```
+   - The most important type of nested class is the inner class. An inner class is a non-static nested class. It has access to all of the variables and methods of its outer class and may refer to them directly in the same way that other non-static members of the outer class do. [Inner Class](https://github.com/zed1025/java-notes/blob/master/inner_class.java)
+   - A static nested class is one that has the static modifier applied. Because it is static, it must access the non-static members of its enclosing class through an object. That is, it cannot refer to non-static members of its enclosing class directly. Because of this restriction, static nested classes are seldom used. [Static nested class](https://github.com/zed1025/java-notes/blob/master/static_nested_class.java)
+   - Uses of nested classes. [link](https://docs.oracle.com/javase/tutorial/java/javaOO/nested.html)
+     1. **It is a way of logically grouping classes that are only used in one place**: If a class is useful to only one other class, then it is logical to embed it in that class and keep the two together. Nesting such "helper classes" makes their package more streamlined.
+     2. **It increases encapsulation**: Consider two top-level classes, A and B, where B needs access to members of A that would otherwise be declared private. By hiding class B within class A, A's members can be declared private and B can access them. In addition, B itself can be hidden from the outside world.
+     3. **It can lead to more readable and maintainable code**: Nesting small classes within top-level classes places the code closer to where it is used.
+     4. Useful in event handling
+  - Most commounly inner classes are declared as members within an outer class scope, but it is possible to define inner classes within any block scope. For example, you can define a nested class within the block defined by a method or even within the body of a for loop. [Inner Class Block Scope](https://github.com/zed1025/java-notes/blob/master/inner_class_block_scope.java)
+- [Why are java strings immutable?](https://javarevisited.blogspot.com/2010/10/why-string-is-immutable-or-final-in-java.html)
+  - _Some_ useful string methods
+    - `boolean equals(secondStr)`, You can test two strings for equality
+    - `int length( )`, You can obtain the length of a string 
+    - `char charAt(index)`, You can obtain the character at a specified index within a string
+- Using **command-line-arguments** in java
+  - used to pass information into a program when you run it
+  - To access the command-line arguments inside a Java program is quite easy—they are stored as strings in a String array passed to the args parameter of main( )
+  - The first command-line argument is stored at args[0], the second at args[1], and so on.
+  - All command-line arguments are passed as strings. You must convert numeric values to their internal forms manually
+- Variable length argument
+  -  creation of methods that need to take a variable number of arguments. 
+  -  This feature is called _varargs_ and it is short for _variable-length arguments_. A method that takes a variable number of arguments is called a _variable-arity method_, or simply a _varargs method_.
+  -  eg. `printf()` method in Java.io library uses varargs
+  -  A variable-length argument is specified by three periods `(...)`. For example, here is how vaTest( ) is written using a vararg `static void vaTest(int ... v) {`.
+  -  [Variable Argument 1](https://github.com/zed1025/java-notes/blob/master/var_len_arg1.java). This syntax tells the compiler that vaTest( ) can be called with zero or more arguments. As a result, v is implicitly declared as an array of type int[ ]. Thus, inside vaTest( ), v is accessed using the normal array syntax.
+  -  A method can have “normal” parameters along with a variable-length parameter. However, the variable-length parameter must be the last parameter declared by the method. E.g. `int doIt(int a, int b, double c, int ... vals) {`
+  -  There is one more restriction to be aware of: **there must be only one varargs parameter**. For example, this declaration is also invalid: `int doIt(int a, int b, double c, int ... vals, double ... morevals) { // Error!`.
+  -  You can overload a method that takes a variable-length argument. [Overloaded Varargs](https://github.com/zed1025/java-notes/blob/master/var_len_arg2.java)
+  -  A varargs method can also be overloaded by a non-varargs method. 
 
 
 
@@ -219,7 +276,13 @@ Example - the following casts an integer to byte
 - [Finalize example](https://github.com/zed1025/java-notes/blob/master/finalize_example.java)
 - [Method Overloading 1](https://github.com/zed1025/java-notes/blob/master/method_overloading_1.java)
 - [Call by reference](https://github.com/zed1025/java-notes/blob/master/call_by_reference.java)
+- [Tower of Hanoi](https://github.com/zed1025/java-notes/blob/master/tower_of_hanoi.java)
 - [Using static](https://github.com/zed1025/java-notes/blob/master/using_static.java)
+- [Inner Class](https://github.com/zed1025/java-notes/blob/master/inner_class.java)
+- [Static nested class](https://github.com/zed1025/java-notes/blob/master/static_nested_class.java)
+- [Inner Class Block Scope](https://github.com/zed1025/java-notes/blob/master/inner_class_block_scope.java)
+- [Variable Argument 1](https://github.com/zed1025/java-notes/blob/master/var_len_arg1.java)
+- [Overloaded Varargs](https://github.com/zed1025/java-notes/blob/master/var_len_arg2.java)
 
 
 
