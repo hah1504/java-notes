@@ -57,5 +57,9 @@ class inheritance2 {
     public static void main(String[] args) {
         B b = new B();
         b.test();
+        System.out.println("\n\n\n\n");
+        A myA = new B();
+        // myA.test(); //error, because test() is not defined in A
+        myA.display4();
     }
 }

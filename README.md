@@ -37,15 +37,15 @@ Reference materials
 - Nested and inner classes✅
 - using command line arguments✅
 - variable length argument✅
-- inheritance
-- golden rule - super class variable can access a subclass object
-- types of inheritance supported in Java
-- use of **super** in inheritance
-- method overriding
-- Dynamic Method Dispatch
-- Abstract Classes
-- use of **final** with inheritance
-- **Object** class
+- inheritance basics✅
+- golden rule - super class variable can access a subclass object✅
+- types of inheritance supported in Java✅
+- use of **super** in inheritance✅
+- method overriding✅
+- Dynamic Method Dispatch✅
+- Abstract Classes✅
+- use of **final** with inheritance✅
+- **Object** class✅
 - Packages
 - Interfaces
 	- **static** methods in an interfaces
@@ -268,7 +268,123 @@ Example - the following casts an integer to byte
 - A class member that has been declared as private will remain private to its class. It is not accessible by any code outside its class, including subclasses.
 - A _Superclass_ variable can reference a _Subclass_ object
   - A reference variable of a superclass can be assigned a reference to any subclass derived from that superclass.
-  - [Reference Demo](https://github.com/zed1025/java-notes/blob/master/RefDemo.java) 
+  - [Reference Demo](https://github.com/zed1025/java-notes/blob/master/RefDemo.java)
+    - It is important to understand that it is the type of the reference variable—not the type of the object that it refers to—that determines what members can be accessed. That is, when a reference to a subclass object is assigned to a superclass reference variable, you will have access only to those parts of the object defined by the superclass. 
+    - This is why plainboxcan’t access weight even when it refers to a BoxWeight object.
+- using `super`
+  - Whenever a subclass needs to refer to its immediate superclass, it can do so by use of the keyword `super`.
+  - `super` has two general forms.
+    1. first calls the superclass’ constructor.
+    2. second is used to access a member of the superclass that has been hidden by a member of a subclass.
+  - A subclass can call a constructor defined by its superclass by use of the following form of super: 
+		```
+		super(arg-list);
+		``` 
+    - arg-list specifies any arguments needed by the constructor in the superclass. super( )must always be the first statement executed inside a subclass’ constructor.
+		```
+		// BoxWeight now uses super to initialize its Box attributes.
+		class BoxWeight extends Box {  
+			double weight; // weight of box  
+
+			// initialize width, height, and depth using super()  
+			BoxWeight(double w, double h, double d, double m) {    
+				super(w, h, d); // call superclass constructor    
+				weight = m;  
+			}
+		}
+		```
+    - Since constructors can be overloaded, super( ) can be called using any form defined by the superclass. The constructor executed will be the one that matches the arguments. 
+  - Second use of super
+    - The second form of super acts somewhat like this, except that it always refers to the superclass of the subclass in which it is used.
+    - This usage has the following general form: `super.member`. `member` can be either a method or an instance variable.
+    - This second form of super is most applicable to situations in which member names of a subclass hide members by the same name in the superclass. [Subclass Hiding Superclass Members](https://github.com/zed1025/java-notes/blob/master/subclass_hiding_super_mem.java)
+- [Why Java doesnt support multiple inheritance?](https://stackoverflow.com/a/2515675)
+- [Types of inheritance in java](https://beginnersbook.com/2013/05/java-inheritance-types/)
+  - Single Inheritance
+  - Multilevel Inheritance
+  - Heirarchial Inheritance
+  - Hybrid Inheritance
+  - Multiple Inheritance <p style="color: red;"><b>NOT SUPPORTED</b></p>
+- Order of evaluation of constructors
+  - When a class hierarchy is created, in what order are the constructors for the classes that make up the hierarchy executed? 
+  - For example, given a subclass called B and a superclass called A, is A’s constructor executed before B’s, or vice versa?
+  - The answer is that in a class hierarchy, constructors complete their execution in order of derivation, from superclass to subclass.
+  -  Further, since super( ) must be the first statement executed in a subclass’ constructor, this order is the same whether or not super( ) is used. If super( ) is not used, then the default or parameterless constructor of each superclass will be executed.
+  -  [Constructor Execution order](https://github.com/zed1025/java-notes/blob/master/constructor_execution_order.java)
+- Method Overriding
+  - In a class hierarchy, when a method in a subclass has the same name and type signature as a method in its superclass, then the method in the subclass is said to override the method in the superclass.
+  - When an overridden method is called from within its subclass, it will always refer to the version of that method defined by the subclass. The version of the method defined by the superclass will be hidden.
+  - [Method Overriding 1](https://github.com/zed1025/java-notes/blob/master/method_overriding1.java)
+  - If you wish to access the superclass version of an overridden method, you can do so by using super. For example, in this version of B, the superclass version of show( ) is invoked within the subclass’ version. This allows all instance variables to be displayed.
+		```
+		class B extends A {  
+			int k;  
+			B(int a, int b, int c) {    
+				super(a, b);    
+				k = c;  
+			}  
+			
+			void show() {    
+				super.show(); // this calls A's show()    
+				System.out.println("k: " + k);  
+			}
+		}
+		```
+  - Method overriding occurs only when the names and the type signatures of the two methods are identical. If they are not, then the two methods are simply overloaded. [Overriding Overloading](https://github.com/zed1025/java-notes/blob/master/overriding_overloading.java)
+- Dynamic Method Dispatch
+  - Method overriding forms the basis for one of Java’s most powerful concepts: dynamic method dispatch.
+  - Dynamic method dispatch is the mechanism by which a call to an overridden method is resolved at run time, rather than compile time. Dynamic method dispatch is important because this is how Java implements **run-time polymorphism**.
+  - _RECALL: a superclass reference variable can refer to a subclass object_. 
+  - When an overridden method is called through a superclass reference, Java determines which version of that method to execute based upon the type of the object being referred to at the time the call occurs. Thus, this determination is made at run time. 
+  - When different types of objects are referred to, different versions of an overridden method will be called. In other words, it is the type of the object being referred to (not the type of the reference variable) that determines which version of an overridden method will be executed. Therefore, if a superclass contains a method that is overridden by a subclass, then when different types of objects are referred to through a superclass reference variable, different versions of the method are executed.
+  - [Dynamic Methods Dispatch](https://github.com/zed1025/java-notes/blob/master/dynamic_method_dispatch.java)
+  - [Dynamic Methods Dispatch Practical](https://github.com/zed1025/java-notes/blob/master/dynamic_method_dispatch_practical.java)
+  - Readers familiar with C++ or C# will recognize that overridden methods in Java are similar to **virtual functions** in those languages.
+- **Abstract** Class
+  - There are situations in which you will want to define a superclass that declares the structure of a given abstraction without providing a complete implementation of every method. 
+  - That is, sometimes you will want to create a superclass that only defines a generalized form that will be shared by all of its subclasses, leaving it to each subclass to fill in the details. Such a class determines the nature of the methods that the subclasses must implement. 
+  - You can require that certain methods be overridden by subclasses by specifying the `abstract` type modifier. Syntax: `abstract type name(parameter-list);`.
+  - Any class that contains one or more abstract methods must also be declared abstract.
+  - There can be no objects of an abstract class. That is, an abstract class cannot be directly instantiated with the new operator. 
+  - Also, you cannot declare abstract constructors, or abstract static methods. 
+  - Any subclass of an abstract class must either implement all of the abstract methods in the superclass, or be declared abstract itself.
+  - Although abstract classes cannot be used to instantiate objects, they can be used to create object references, because Java’s approach to run-time polymorphism is implemented through the use of superclass references. 
+  - [Abstract Class Example 1](https://github.com/zed1025/java-notes/blob/master/abstract_class1.java)
+  - [Practical Example of Abstract class](https://github.com/zed1025/java-notes/blob/master/abstract_class_practical.java)
+- Using `final` with inheritance
+  - reacall the use of `final` discussed earlier: used to create named constants
+  - The other two uses are discussed here
+    - used to prevent method overriding:  To disallow a method from being overridden, specify final as a modifier at the start of its declaration. Methods declared as final cannot be overridden. 
+		```
+		class A {
+		final void meth() {
+			System.out.println("This is a final method.");
+		}
+		}
+
+		class B extends A {
+		void meth() { // ERROR! Can't override.
+			System.out.println("Illegal!");
+		}
+		}
+		```
+      - Methods declared as final can sometimes provide a performance enhancement: The compiler is free to inline calls to them because it “knows” they will not be overridden by a subclass. When a small final method is called, often the Java compiler can copy the bytecode for the subroutine directly inline with the compiled code of the calling method, thus eliminating the costly overhead associated with a method call. Inlining is an option only with final methods. Normally, Java resolves calls to methods dynamically, at run time. This is called **late binding**. However, since final methods cannot be overridden, a call to one can be resolved at compile time. This is called **early binding**.
+    - using `final` to prevent inheritance: Sometimes you will want to prevent a class from being inherited. To do this, precede the class declaration with final. Declaring a class as final implicitly declares all of its methods as final, too. 
+      - As you might expect, it is illegal to declare a class as both abstract and final since an abstract class is incomplete by itself and relies upon its subclasses to provide complete implementations.
+		```
+		final class A {
+		// ...
+		}
+
+		// The following class is illegal.
+		class B extends A { // ERROR! Can't subclass A
+		// ...
+		}
+
+		```
+- All classes in Java are subclasses of the `Object` class. 
+  - This means that a reference variable of type Object can refer to an object of any other class. 
+  - Also, since arrays are implemented as classes, a variable of type Object can also refer to any array.
 
 
 
@@ -276,6 +392,10 @@ Example - the following casts an integer to byte
 
 
 https://github.com/zed1025/java-notes/blob/master/.java
+
+
+
+
 
 
 ## List of Programs
@@ -297,6 +417,12 @@ https://github.com/zed1025/java-notes/blob/master/.java
 - [Overloaded Varargs](https://github.com/zed1025/java-notes/blob/master/var_len_arg2.java)
 - [Inheritance Basic 1](https://github.com/zed1025/java-notes/blob/master/inheritance1.java)
 - [Reference Demo](https://github.com/zed1025/java-notes/blob/master/RefDemo.java)
+- [Subclass Hiding Superclass Members](https://github.com/zed1025/java-notes/blob/master/subclass_hiding_super_mem.java)
+- [Constructor Execution order](https://github.com/zed1025/java-notes/blob/master/constructor_execution_order.java)
+- [Method Overriding 1](https://github.com/zed1025/java-notes/blob/master/method_overriding1.java)
+- [Overriding Overloading](https://github.com/zed1025/java-notes/blob/master/overriding_overloading.java)
+- [Dynamic Methods Dispatch](https://github.com/zed1025/java-notes/blob/master/dynamic_method_dispatch.java)
+- 
 
 
 
