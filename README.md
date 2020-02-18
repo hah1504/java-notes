@@ -515,7 +515,101 @@ Example - the following casts an integer to byte
   - Like static methods in a class, a static method defined by an interface can be called independently of any object. Thus, no implementation of the interface is necessary, and no instance of the interface is required, in order to call a static method. 
   - Instead, a static method is called by specifying the interface name, followed by a period, followed by the method name. Here is the general form: `InterfaceName.staticMethodName`.
   - static interface methods are _not inherited_ by either an implementing class or a subinterface
+- Exception Handling Basics
+  - An exception is an abnormal condition that arises in a code sequence at run time.
+  - an exception is a run-time error. 
+  - A Java exception is an object that describes an exceptional (that is, error) condition that has occurred in a piece of code.
+  - When an exceptional condition arises, an object representing that exception is created and _thrown_ in the method that caused the error.
+  - That method may choose to handle the exception itself, or pass it on. Either way, at some point, the exception is _caught_ and processed.
+  - Java exception handling is managed via five keywords: `try`, `catch`, `throw`, `throws`, and `finally`.
+  - Briefly, here is how they work. Program statements that you want to monitor for exceptions are contained within a try block. If an exception occurs within the try block, it is thrown. Your code can catch this exception (using catch) and handle it in some rational manner. System-generated exceptions are automatically thrown by the Java run-time system. To manually throw an exception, use the keyword throw. Any exception that is thrown out of a method must be specified as such by a throws clause. Any code that absolutely must be executed after a try block completes is put in a finally block.
+- Exception Types
+  - All exception types are subclasses of the built-in class **Throwable**. 
+  - Immediately below Throwable are two subclasses that partition exceptions into two distinct branches.
+    - One branch is headed by Exception. This class is used for exceptional conditions that user programs should catch. This is also the class that you will subclass to create your own custom exception types. There is an important subclass of Exception, called RuntimeException. Exceptions of this type are automatically defined for the programs that you write and include things such as division by zero and invalid array indexing.
+    - The other branch is topped by Error, which defines exceptions that are not expected to be caught under normal circumstances by your program. Exceptions of type Error are used by the Java run-time system to indicate errors having to do with the run-time environment, itself. Stack overflow is an example of such an error.(NOT COVERED HERE)
+  - ![](exception_heirarchy.png)
+- Benifits of handling exceptions by yourself
+  - First, it allows you to fix the error
+  - Second, it prevents the program from automatically terminating. 
+- To guard against and handle a run-time error, simply enclose the code that you want to monitor inside a try block. Immediately following the `try` block, include a `catch` clause that specifies the exception type that you wish to catch. [Exceptions 1](https://github.com/zed1025/java-notes/blob/master/exceptions1.java)
+  - Notice that the call to println( ) inside the try block is never executed. Once an exception is thrown, program control transfers out of the try block into the catch block.
+  - Once the catch statement has executed, program control continues with the next line in the program following the entire try / catch mechanism.
+- In some cases, more than one exception could be raised by a single piece of code. To handle this type of situation, you can specify two or more catch clauses, each catching a different type of exception. When an exception is thrown, each catch statement is inspected in order, and the first one whose type matches that of the exception is executed. After one catch statement executes, the others are bypassed, and execution continues after the try / catch block.
+- The `try` statement can be nested. 
+- a `try` statement can be inside the block of another try. Each time a try statement is entered, the context of that exception is pushed on the stack. If an inner try statement does not have a catch handler for a particular exception, the stack is unwound and the next try statement’s catch handlers are inspected for a match. This continues until one of the catch statements succeeds, or until all of the nested trystatements are exhausted. If no catch statement matches, then the Java run-time system will handle the exception. [Nested try](https://github.com/zed1025/java-notes/blob/master/exceptions2.java)
+- **throw**: So far, you have only been catching exceptions that are thrown by the Java run-time system. However, it is possible for your program to throw an exception explicitly, using the throwstatement. The general form of throw is shown here: `throw ThrowableInstance;`.
+  - ThrowableInstance must be an object of type Throwable or a subclass of Throwable. Primitive types, such as int or char, as well as non-Throwable classes, such as String and Object, cannot be used as exceptions. 
+  - There are two ways you can obtain a Throwableobject: using a parameter in a catch clause or creating one with the new operator.
+  - The flow of execution stops immediately after the throw statement; any subsequent statements are not executed. The nearest enclosing try block is inspected to see if it has a catch statement that matches the type of exception. If it does find a match, control is transferred to that statement. If not, then the next enclosing try statement is inspected, and so on. If no matching catch is found, then the default exception handler halts the program and prints the stack trace. [Throw demo](https://github.com/zed1025/java-notes/blob/master/throw_demo.java)
+    - This program gets two chances to deal with the same error. First, main( ) sets up an exception context and then calls demoproc( ). The demoproc( ) method then sets up another exception-handling context and immediately throws a new instance of NullPointerException, which is caught on the next line. The exception is then rethrown. 
+- **throws**: If a method is capable of causing an exception that it does not handle, it must specify this behavior so that callers of the method can guard themselves against that exception. 
+  - You do this by including a throws clause in the method’s declaration. A throws clause lists the types of exceptions that a method might throw. 
+  - This is necessary for all exceptions, except those of type Error or RuntimeException, or any of their subclasses. All other exceptions that a method can throw must be declared in the throws clause. If they are not, a compile-time error will result.
+  - This is the general form of a method declaration that includes a `throws` clause:
+    ```
+    type method-name(parameter-list) throws exception-list{   
+      // body of method
+    }
+    ```
+  - _exception-list_ is a comma-separated list of the exceptions that a method can throw.
+  - [Throws Demo](https://github.com/zed1025/java-notes/blob/master/throws_demo.java)
+  - [Throws Demo 2](https://github.com/zed1025/java-notes/blob/master/throws_demo2.java)
+- **finally**: finally creates a block of code that will be executed after a try /catch block has completed and before the code following the try/catch block. The finally block will execute whether or not an exception is thrown. If an exception is thrown, the finally block will execute even if no catch statement matches the exception. Any time a method is about to return to the caller from inside a try/catch block, via an uncaught exception or an explicit return statement, the finally clause is also executed just before the method returns. This can be useful for closing file handles and freeing up any other resources that might have been allocated at the beginning of a method with the intent of disposing of them before returning. The finally clause is optional. However, each try statement requires at least one catch or a finally clause.
+  - [finally demo](https://github.com/zed1025/java-notes/blob/master/finally_demo.java)
+  - If a finally block is associated with a try, the finally block will be executed upon conclusion of the try.
+- Java's built in exceptions are defined in **java.lang**.
+- The following code shows how custom exceptions can be created.
+  ```
+  // This program creates a custom exception type.
+  class MyException extends Exception {
+    private int detail;
 
+    MyException(int a) {
+      detail = a;
+    }
+
+    public String toString() {
+      return "MyException[" + detail + "]";
+    }
+  }
+
+  class ExceptionDemo {
+    static void compute(int a) throws MyException {
+      System.out.println("Called compute(" + a + ")");
+      if(a > 10)
+        throw new MyException(a);
+      System.out.println("Normal exit");
+    }
+
+    public static void main(String args[]) {
+      try {
+        compute(1);
+        compute(20);
+      } catch (MyException e) {
+        System.out.println("Caught " + e);
+      }
+    }
+  }
+
+
+
+  /*
+  Output 
+
+
+  Called compute(1)   
+  Normal exit   
+  Called compute(20)   
+  Caught MyException[20]
+  */
+  ```
+  - to create your own exception types to handle situations specific to your application just define a subclass of Exception (which is, of course, a subclass of Throwable)
+- See [Chained Exceptions](https://www.geeksforgeeks.org/chained-exceptions-java/)
+- See [try-with-resources](https://www.javatpoint.com/java-try-with-resources)
+- See [Multi Catch](https://www.javatpoint.com/multiple-catch-block-in-java)
+- 
+- 
 
 
 
@@ -558,6 +652,12 @@ https://github.com/zed1025/java-notes/blob/master/.java
 - [Practical Example of Abstract class](https://github.com/zed1025/java-notes/blob/master/abstract_class_practical.java)
 - [Nested Interface](https://github.com/zed1025/java-notes/blob/master/nested_interface.java)
 - [Inheritance of Interfaces](https://github.com/zed1025/java-notes/blob/master/extending_interfaces.java)
+- [Exceptions 1](https://github.com/zed1025/java-notes/blob/master/exceptions1.java)
+- [Nested try](https://github.com/zed1025/java-notes/blob/master/exceptions2.java)
+- [Throw demo](https://github.com/zed1025/java-notes/blob/master/throw_demo.java)
+- [Throws Demo](https://github.com/zed1025/java-notes/blob/master/throws_demo.java)
+- [Throws Demo 2](https://github.com/zed1025/java-notes/blob/master/throws_demo2.java)
+- [finally demo](https://github.com/zed1025/java-notes/blob/master/finally_demo.java)
 
 
 
