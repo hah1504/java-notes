@@ -46,20 +46,21 @@ Reference materials
 - Abstract Classes✅
 - use of **final** with inheritance✅
 - **Object** class✅
-- Packages
-- Interfaces
+- Packages✅
+- Interfaces✅
 	- **static** methods in an interfaces
-- Exception handling
+- Exception handling✅
 	- try-catch
 	- nested try statements
 	- throw
 	- throws
 	- finally
-- Creating your own exception subclass
-- chained exceptions
+- Creating your own exception subclass✅
+- chained exceptions✅
 
 ### Moderate Topics
-- Multithreaded Programming
+- Multithreaded Programming(Traditional)
+- Multithreading using fork/join(Chapter 28)
 - Enumerations, Autoboxing and Annotations
 - Generics
 - Lambda Expressions
@@ -608,15 +609,170 @@ Example - the following casts an integer to byte
 - See [Chained Exceptions](https://www.geeksforgeeks.org/chained-exceptions-java/)
 - See [try-with-resources](https://www.javatpoint.com/java-try-with-resources)
 - See [Multi Catch](https://www.javatpoint.com/multiple-catch-block-in-java)
-- 
-- 
 
+- Multithreaded Programs Basics
+  - A multithreaded program contains two or more parts that can run concurrently. 
+  - Each part of such a program is called a thread, and each thread defines a separate path of execution. Thus, multithreading is a specialized form of multitasking.
+  - there are two distinct types of multitasking: 
+    - **Process Based**: A process is, in essence, a program that is executing. Thus, process-based multitasking is the feature that allows your computer to run two or more programs concurrently. For example, process-based multitasking enables you to run the Java compiler at the same time that you are using a text editor or visiting a web site. In process-based multitasking, a program is the smallest unit of code that can be dispatched by the scheduler.
+    - **Thread Based**: In a thread-based multitasking environment, the thread is the smallest unit of dispatchable code. This means that a single program can perform two or more tasks simultaneously. For instance, a text editor can format text at the same time that it is printing, as long as these two actions are being performed by two separate threads. Thus, process-based multitasking deals with the “big picture,” and thread-based multitasking handles the details.
+  - Multitasking threads require less overhead than multitasking processes. Processes are heavyweight tasks that require their own separate address spaces. Interprocess communication is expensive and limited. Context switching from one process to another is also costly. Threads, on the other hand, are lighter weight. They share the same address space and cooperatively share the same heavyweight process. Interthread communication is inexpensive, and context switching from one thread to the next is lower in cost. While Java programs make use of process-based multitasking environments, process-based multitasking is not under Java’s control. However, multithreaded multitasking is.
+- Thread Model for Java
+  - Single-threaded systems use an approach called an event loop with polling. In this model, a single thread of control runs in an infinite loop, polling a single event queue to decide what to do next. Once this polling mechanism returns with, say, a signal that a network file is ready to be read, then the event loop dispatches control to the appropriate event handler. Until this event handler returns, nothing else can happen in the program. This wastes CPU time. It can also result in one part of a program dominating the system and preventing any other events from being processed. In general, in a single-threaded environment, when a thread blocks (that is, suspends execution) because it is waiting for some resource, the entire program stops running.
+  - The benefit of Java’s multithreading is that the main loop/polling mechanism is eliminated. 
+  - One thread can pause without stopping other parts of your program. For example, the idle time created when a thread reads data from a network or waits for user input can be utilized elsewhere. Multithreading allows animation loops to sleep for a second between each frame without causing the whole system to pause. When a thread blocks in a Java program, only the single thread that is blocked pauses. All other threads continue to run.
+  - Java Threads can work in both single- and multi-core systems
+  - Threads exist in several states. A thread can be running. It can be ready to run as soon as it gets CPU time. A running thread can be suspended, which temporarily halts its activity. A suspended thread can then be resumed, allowing it to pick up where it left off. A thread can be blocked when waiting for a resource. At any time, a thread can be terminated, which halts its execution immediately. Once terminated, a thread cannot be resumed.
+- Thread Priorities
+  - Java assigns to each thread a priority that determines how that thread should be treated with respect to the others. Thread priorities are integers that specify the relative priority of one thread to another. 
+  - As an absolute value, a priority is meaningless; a higher-priority thread doesn’t run any faster than a lower-priority thread if it is the only thread running
+  - Instead, a thread’s priority is used to decide when to switch from one running thread to the next. This is called a context switch. The rules that determine when a context switch takes place are simple:
+    - A thread can voluntarily relinquish control. This is done by explicitly yielding, sleeping, or blocking on pending I/O. In this scenario, all other threads are examined, and the highest-priority thread that is ready to run is given the CPU.
+    - A thread can be preempted by a higher-priority thread. In this case, a lower-priority thread that does not yield the processor is simply preempted—no matter what it is doing—by a higher-priority thread. Basically, as soon as a higher-priority thread wants to run, it does. This is called _preemptive multitasking_.
+  - In cases where two threads with the same priority are competing for CPU cycles, the situation is a bit complicated. For operating systems such as Windows, threads of equal priority are time-sliced automatically in round-robin fashion. For other types of operating systems, threads of equal priority must voluntarily yield control to their peers. If they don’t, the other threads will not run.
+  - Because multithreading introduces an asynchronous behavior to your programs, there must be a way for you to enforce synchronicity when you need it. For this purpose, Java implements an elegant twist on an age-old model of interprocess synchronization: **the monitor**.
+    - You can think of a monitor as a very small box that can hold only one thread. Once a thread enters a monitor, all other threads must wait until that thread exits the monitor. In this way, a monitor can be used to protect a shared asset from being manipulated by more than one thread at a time.
+    - In Java, there is no class “Monitor”; instead, each object has its own implicit monitor that is automatically entered when one of the object’s synchronized methods is called. Once a thread is inside a synchronized method, no other thread can call any other synchronized method on the same object. This enables you to write very clear and concise multithreaded code, because synchronization support is built into the language.
+- Java's multithreading system is built upon 
+  - `Thread` class
+  - `Runnable` interface
+- The **Main** thread
+  - When a Java program starts up, one thread begins running immediately. This is usually called the main thread of your program, because it is the one that is executed when your program begins. The main thread is important for two reasons:
+    - It is the thread from which other “child” threads will be spawned.
+    - Often, it must be the last thread to finish execution because it performs various shutdown actions.
+  - Although the main thread is created automatically when your program is started, it can be controlled through a Thread object. To do so, you must obtain a reference to it by calling the method `currentThread( )`, which is a public static member of Thread. Its general form is shown here: `static Thread currentThread( )`
+    - This method returns a reference to the thread in which it is called. Once you have a reference to the main thread, you can control it just like any other thread.
+    - [Controlling Main Thread](https://github.com/zed1025/java-notes/blob/master/controlling_main_thread.java)
+    - Output of the above code
+      ```
+      Current thread: Thread[main,5,main]
+      After name change: Thread[My Thread,5,main]
+      5
+      4
+      3
+      2
+      1
+      ```
+    - Notice the output produced when t is used as an argument to println( ). This displays, in order: _the name of the thread_, _its priority_, and _the name of its group_. By default, the name of the main thread is main. Its priority is 5, which is the default value, and main is also the name of the group of threads to which this thread belongs. _A thread group is a data structure that controls the state of a collection of threads as a whole_. After the name of the thread is changed, t is again output. This time, the new name of the thread is displayed.
+    - The sleep( ) method causes the thread from which it is called to suspend execution for the specified period of milliseconds. General form of sleep()
+      ```static void sleep(long milliseconds) throws InterruptedException```
+- Creating a Thread
+  - Two ways to create threads in Java
+    - You can implement the `Runnable` interface.
+    - You can extend the `Thread` class, itself.
+- Creating thread by implementing the Runnnable interface
+  - easiest way
+  - To implement Runnable, a class need only implement a single method called `run( )`. run() has the following general form
+    ```public void run( )```
+  - Inside run( ), you will define the code that constitutes the new thread. It is important to understand that run( ) can call other methods, use other classes, and declare variables, just like the main thread can. The only difference is that run( ) establishes the entry point for another, concurrent thread of execution within your program. This thread will end when run( )returns.
+  - After you create a class that implements Runnable, you will instantiate an object of type Thread from within that class. Thread defines several constructors. The one that we will use is shown here: `Thread(Runnable threadOb, String threadName)`
+  - In this constructor, threadOb is an instance of a class that implements the Runnableinterface. This defines where execution of the thread will begin. The name of the new thread is specified by threadName.
+  - After the new thread is created, it will not start running until you call its start( ) method, which is declared within Thread. In essence, start( ) executes a call to run( ). The start( )method is shown here: `void start()`.
+  - [Creating Thread using runnable](https://github.com/zed1025/java-notes/blob/master/runnable_thread1.java)
+- Creating thread by extending the Thread class
+  - The second way to create a thread is to create a new class that extends Thread, and then to create an instance of that class. The extending class must override the run( ) method, which is the entry point for the new thread. It must also call start( ) to begin execution of the new thread. 
+  - [Creating Thread extending Thread class](https://github.com/zed1025/java-notes/blob/master/thread_thread1.java) 
+- Choosing an approach
+  - Many Java programmers feel that classes should be extended only when they are being enhanced or modified in some way. 
+  - So, if you will not be overriding any of Thread’s other methods, it is probably best simply to implement Runnable.
+  - Also, by implementing Runnable, your thread class does not need to inherit Thread, making it free to inherit a different class.
+- [Multiple Threads](https://github.com/zed1025/java-notes/blob/master/multi_threads.java)
+- `isAlive()` and `join()`
+  -  How can one thread know when another thread has ended? Fortunately, `Thread` provides a means by which you can answer this question.
+  -  Two ways exist to determine whether a thread has finished. 
+     -  First, you can call `isAlive( )` on the thread. This method is defined by Thread, and its general form is shown here: `final boolean isAlive( )`. The `isAlive( )` method returns `true` if the thread upon which it is called is still running. It returns `false` otherwise.
+     -  Second, using `join()`. General form: `final void join( ) throws InterruptedException`. This method waits until the thread on which it is called terminates. Additional forms of `join( )` allow you to specify a maximum amount of time that you want to wait for the specified thread to terminate. `join()` is more commonly used than `isAlive()`. 
+  -  Here is an improved version of the preceding example that uses `join( )` to ensure that the main thread is the last to stop. It also demonstrates the `isAlive( )` method.
+     -  [Waiting for threads](https://github.com/zed1025/java-notes/blob/master/wait_for_threads.java)
+- Thread Priorities
+  - Thread priorities are used by the thread scheduler to decide when each thread should be allowed to run. In theory, over a given period of time, higher-priority threads get more CPU time than lower-priority threads. In practice, the amount of CPU time that a thread gets often depends on several factors besides its priority. (For example, how an operating system implements multitasking can affect the relative availability of CPU time.) A higher-priority thread can also preempt a lower-priority one. For instance, when a lower-priority thread is running and a higher-priority thread resumes (from sleeping or waiting on I/O, for example), it will preempt the lower-priority thread
+  - In theory, threads of equal priority should get equal access to the CPU. But you need to be careful. Remember, Java is designed to work in a wide range of environments. Some of those environments implement multitasking fundamentally differently than others. For safety, threads that share the same priority should yield control once in a while. This ensures that all threads have a chance to run under a nonpreemptive operating system. In practice, even in nonpreemptive environments, most threads still get a chance to run, because most threads inevitably encounter some blocking situation, such as waiting for I/O. When this happens, the blocked thread is suspended and other threads can run. But, if you want smooth multithreaded execution, you are better off not relying on this. Also, some types of tasks are CPU-intensive. Such threads dominate the CPU. For these types of threads, you want to yield control occasionally so that other threads can run.
+  - To set a thread’s priority, use the setPriority( ) method, which is a member of Thread. This is its general form: `final void setPriority(int level)`. Here, level specifies the new priority setting for the calling thread. The value of level must be within the range **MIN_PRIORITY** and **MAX_PRIORITY**. Currently, these values are 1 and 10, respectively. To return a thread to default priority, specify **NORM_PRIORITY**, which is currently 5. These priorities are defined as static final variables within Thread.
+  - You can obtain the current priority setting by calling the getPriority( ) method of Thread, shown here: `final int getPriority( )`.
+- **Synchronization**
+  - When two or more threads need access to a shared resource, they need some way to ensure that the resource will be used by only one thread at a time. The process by which this is achieved is called synchronization. Java provides unique, language-level support for it.
+  - Key to synchronization is the concept of the monitor. A monitor is an object that is used as a mutually exclusive lock. Only one thread can own a monitor at a given time. When a thread acquires a lock, it is said to have entered the monitor. All other threads attempting to enter the locked monitor will be suspended until the first thread exits the monitor. These other threads are said to be waiting for the monitor. A thread that owns a monitor can reenter the same monitor if it so desires.
+  - You can synchronize your code in either of two ways. Both involve the use of the `synchronized` keyword, and both are examined here.
+    1. Using synchronized methods
+       - To enter an object’s monitor, just call a method that has been modified with the synchronized keyword. While a thread is inside a synchronized method, all other threads that try to call it (or any other synchronized method) on the same instance have to wait. To exit the monitor and relinquish control of the object to the next waiting thread, the owner of the monitor simply returns from the synchronized method.
+       - Why we need synchronization? 
+         - See this program [Need for Synchronization](https://github.com/zed1025/java-notes/blob/master/not_synchronized.java)
+         - It produces the following output
+            ```
+            [World[Synchronized[Hello]
+            ]
+            ]
+            ```
+         - As you can see, by calling sleep( ), the call( ) method allows execution to switch to another thread. This results in the mixed-up output of the three message strings. In this program, nothing exists to stop all three threads from calling the same method, on the same object, at the same time. This is known as a race condition, because the three threads are racing each other to complete the method. This example used sleep( ) to make the effects repeatable and obvious. In most situations, a race condition is more subtle and less predictable, because you can’t be sure when the context switch will occur. This can cause a program to run right one time and wrong the next.
+         - To fix the preceding program, you must _serialize_ access to `call( )`. That is, you must restrict its access to only one thread at a time. To do this, you simply need to precede call( )’s definition with the keyword `synchronized`, as shown here:
+          ```
+          class Callme {
+            synchronized void call (String msg) {
+            ...
+          ```
+         - This prevents other threads from entering call( ) while another thread is using it.[Synchronized](https://github.com/zed1025/java-notes/blob/master/synced.java) 
+       - Any time that you have a method, or group of methods, that manipulates the internal state of an object in a multithreaded situation, you should use the synchronized keyword to guard the state from race conditions. Remember, once a thread enters any synchronized method on an instance, no other thread can enter any other synchronized method on the same instance. However, nonsynchronized methods on that instance will continue to be callable.
+    2. The synchronized statement
+       - While creating synchronized methods within classes that you create is an easy and effective means of achieving synchronization, it will not work in all cases.
+       - To understand why, consider the following. Imagine that you want to synchronize access to objects of a class that was not designed for multithreaded access. That is, the class does not use synchronized methods. Further, this class was not created by you, but by a third party, and you do not have access to the source code. Thus, you can’t add synchronized to the appropriate methods within the class. How can access to an object of this class be synchronized? Fortunately, the solution to this problem is quite easy: You simply put calls to the methods defined by this class inside a **synchronized block**.
+       - This is the general form of the synchronized statement:
+          ```
+          synchronized (objRef) {
+            //statements to be synchronized
+          }
+          ```
+       - Here, objRef is a reference to the object being synchronized. A synchronized block ensures that a call to a synchronized method that is a member of objRef’sclass occurs only after the current thread has successfully entered objRef’s monitor.
+       - [Synchronization block](https://github.com/zed1025/java-notes/blob/master/synced_using_block.java)
+- **Interthread** Communication
+  - Need for interthread communication
+    - As discussed earlier, multithreading replaces event loop programming by dividing your tasks into discrete, logical units. Threads also provide a secondary benefit: they do away with polling. Polling is usually implemented by a loop that is used to check some condition repeatedly. Once the condition is true, appropriate action is taken. This wastes CPU time. For example, consider the classic queuing problem, where one thread is producing some data and another is consuming it. To make the problem more interesting, suppose that the producer has to wait until the consumer is finished before it generates more data. In a polling system, the consumer would waste many CPU cycles while it waited for the producer to produce. Once the producer was finished, it would start polling, wasting more CPU cycles waiting for the consumer to finish, and so on. Clearly, this situation is undesirable.
+  - To avoid polling, Java includes an elegant interprocess communication mechanism via the `wait( )`, `notify( )`, and `notifyAll( )` methods.These methods are implemented as finalmethods in Object, so all classes have them. All three methods can be called only from within a synchronized context. Although conceptually advanced from a computer science perspective, the rules for using these methods are actually quite simple:
+    - `wait( )` tells the calling thread to give up the monitor and go to sleep until some other thread enters the same monitor and calls `notify( )` or `notifyAll( )`.
+    - `notify( )` wakes up a thread that called `wait( )` on the same object.
+    - `notify( )` wakes up a thread that called `wait( )` on the same object.
+  - These methods are declared within Object, as shown here:
+    - `final void wait( ) throws InterruptedException`
+    - `final void notify( )`
+    - `final void notifyAll( )`
+  - Before working through an example that illustrates interthread communication, an important point needs to be made. Although wait( ) normally waits until notify( ) or notifyAll( ) is called, there is a possibility that in very rare cases the waiting thread could be awakened due to a spurious wakeup. In this case, a waiting thread resumes without notify( )or notifyAll( ) having been called. (In essence, the thread resumes for no apparent reason.) Because of this remote possibility, Oracle recommends that calls to wait( ) should take place within a loop that checks the condition on which the thread is waiting. The following example shows this technique.
+    - [Incorrect Producer Consumer](https://github.com/zed1025/java-notes/blob/master/producer_consumer_ic.java)
+      - Although the put( ) and get( ) methods on Q are synchronized, nothing stops the producer from overrunning the consumer, nor will anything stop the consumer from consuming the same queue value twice. Thus, you get the erroneous output
+    - [Correct Producer Consumer](https://github.com/zed1025/java-notes/blob/master/producer_consumer_c.java)
+      - Inside get( ), wait( ) is called. This causes its execution to suspend until Producer notifies you that some data is ready. When this happens, execution inside get( ) resumes. After the data has been obtained, get( ) calls notify( ). This tells Producer that it is okay to put more data in the queue. Inside put( ), wait( ) suspends execution until Consumer has removed the item from the queue. When execution resumes, the next item of data is put in the queue, and notify( ) is called. This tells Consumer that it should now remove it.
+- Deadlock
+  - A special type of error that you need to avoid that relates specifically to multitasking is deadlock, which occurs when two threads have a circular dependency on a pair of synchronized objects. For example, suppose one thread enters the monitor on object X and another thread enters the monitor on object Y. If the thread in X tries to call any synchronized method on Y, it will block as expected. However, if the thread in Y, in turn, tries to call any synchronized method on X, the thread waits forever, because to access X, it would have to release its own lock on Y so that the first thread could complete. Deadlock is a difficult error to debug for two reasons:
+    - In general, it occurs only rarely, when the two threads time-slice in just the right way
+    - It may involve more than two threads and two synchronized objects. (That is, deadlock can occur through a more convoluted sequence of events than just described.)
+  - To understand deadlock fully, it is useful to see it in action. The next example creates two classes, A and B, with methods foo( ) and bar( ), respectively, which pause briefly before trying to call a method in the other class. The main class, named Deadlock, creates an Aand a B instance, and then starts a second thread to set up the deadlock condition. The foo( ) and bar( ) methods use sleep( ) as a way to force the deadlock condition to occur. [Deadlock](https://github.com/zed1025/java-notes/blob/master/deadlock.java)
+    - Because the program has deadlocked, you need to press ctrl-c to end the program. You can see a full thread and monitor cache dump by pressing ctrl-break on a PC. You will see that RacingThread owns the monitor on b, while it is waiting for the monitor on a. At the same time, MainThread owns a and is waiting to get b. This program will never complete. As this example illustrates, if your multithreaded program locks up occasionally, deadlock is one of the first conditions that you should check for.
+- Suspending, Resuming and Stopping Threads
+  - Sometimes, suspending execution of a thread is useful. For example, a separate thread can be used to display the time of day. If the user doesn’t want a clock, then its thread can be suspended. Whatever the case, suspending a thread is a simple matter. Once suspended, restarting the thread is also a simple matter.
+  - The mechanisms to suspend, stop, and resume threads differ between early versions of Java, such as Java 1.0, and modern versions, beginning with Java 2. Prior to Java 2, a program used suspend( ), resume( ), and stop( ), which are methods defined by Thread, to pause, restart, and stop the execution of a thread. Although these methods seem to be a perfectly reasonable and convenient approach to managing the execution of threads, they must not be used for new Java programs. Here’s why. The suspend( ) method of the Thread class was deprecated by Java 2 several years ago. This was done because suspend( ) can sometimes cause serious system failures. Assume that a thread has obtained locks on critical data structures. If that thread is suspended at that point, those locks are not relinquished. Other threads that may be waiting for those resources can be deadlocked.
+  - The resume( ) method is also deprecated. It does not cause problems, but cannot be used without the suspend( ) method as its counterpart.The stop( ) method of the Thread class, too, was deprecated by Java 2. This was done because this method can sometimes cause serious system failures. Assume that a thread is writing to a critically important data structure and has completed only part of its changes. If that thread is stopped at that point, that data structure might be left in a corrupted state. The trouble is that stop( ) causes any lock the calling thread holds to be released. Thus, the corrupted data might be used by another thread that is waiting on the same lock.
+  - Because you can’t now use the suspend( ), resume( ), or stop( ) methods to control a thread, you might be thinking that no way exists to pause, restart, or terminate a thread. But, fortunately, this is not true. Instead, a thread must be designed so that the run( ) method periodically checks to determine whether that thread should suspend, resume, or stop its own execution. Typically, this is accomplished by establishing a flag variable that indicates the execution state of the thread. As long as this flag is set to “running,” the run( ) method must continue to let the thread execute. If this variable is set to “suspend,” the thread must pause. If it is set to “stop,” the thread must terminate. Of course, a variety of ways exist in which to write such code, but the central theme will be the same for all programs.
+  - The following example illustrates how the wait( ) and notify( ) methods that are inherited from Object can be used to control the execution of a thread. Let us consider its operation. The NewThread class contains a boolean instance variable named suspendFlag, which is used to control the execution of the thread. It is initialized to false by the constructor. The run( ) method contains a synchronized statement block that checks suspendFlag. If that variable is true, the wait( ) method is invoked to suspend the execution of the thread. The mysuspend( ) method sets suspendFlag to true. The myresume( )method sets suspendFlag to false and invokes notify( ) to wake up the thread. Finally, the main( ) method has been modified to invoke the mysuspend( ) and myresume( ) methods.
+  - [Suspend Resume](https://github.com/zed1025/java-notes/blob/master/SuspendResume.java)
+- Obtaining a thread's state
+  - As mentioned earlier in this chapter, a thread can exist in a number of different states. You can obtain the current state of a thread by calling the getState( ) method defined by Thread. It is shown here: `Thread.State getState( )`. It returns a value of type Thread.State that indicates the state of the thread at the time at which the call was made. State is an enumeration defined by Thread. Here are the values that can be returned by getState( ):
+  - ![](threads1.png)
+  - diagrams how the various thread states relate.
+  - ![](threads2.png)
+  - Given a Thread instance, you can use getState( ) to obtain the state of a thread. For example, the following sequence determines if a thread called thrd is in the RUNNABLEstate at the time getState( ) is called:
+    ```
+    Thread.State ts = thrd.getState();
+
+    if(ts == Thread.State.RUNNABLE) // ...
+    ```
+  - It is important to understand that a thread’s state may change after the call to getState( ). Thus, depending on the circumstances, the state obtained by calling getState( ) may not reflect the actual state of the thread only a moment later. For this (and other) reasons, getState( ) is not intended to provide a means of synchronizing threads. It’s primarily used for debugging or for profiling a thread’s run-time characteristics.
 
 
 
 
 
 https://github.com/zed1025/java-notes/blob/master/.java
+
+
+
 
 
 
@@ -658,6 +814,18 @@ https://github.com/zed1025/java-notes/blob/master/.java
 - [Throws Demo](https://github.com/zed1025/java-notes/blob/master/throws_demo.java)
 - [Throws Demo 2](https://github.com/zed1025/java-notes/blob/master/throws_demo2.java)
 - [finally demo](https://github.com/zed1025/java-notes/blob/master/finally_demo.java)
+- [Controlling Main Thread](https://github.com/zed1025/java-notes/blob/master/controlling_main_thread.java)
+- [Creating Thread using runnable](https://github.com/zed1025/java-notes/blob/master/runnable_thread1.java)
+- [Creating Thread extending Thread class](https://github.com/zed1025/java-notes/blob/master/thread_thread1.java)
+- [Multiple Threads](https://github.com/zed1025/java-notes/blob/master/multi_threads.java)
+- [Waiting for threads](https://github.com/zed1025/java-notes/blob/master/wait_for_threads.java)
+- [Need for Synchronization](https://github.com/zed1025/java-notes/blob/master/not_synchronized.java)
+- [Synchronized](https://github.com/zed1025/java-notes/blob/master/synced.java) 
+- [Synchronization block](https://github.com/zed1025/java-notes/blob/master/synced_using_block.java)
+- [Incorrect Producer Consumer](https://github.com/zed1025/java-notes/blob/master/producer_consumer_ic.java)
+- [Correct Producer Consumer](https://github.com/zed1025/java-notes/blob/master/producer_consumer_c.java)
+- [Deadlock](https://github.com/zed1025/java-notes/blob/master/deadlock.java)
+- [Suspend Resume](https://github.com/zed1025/java-notes/blob/master/SuspendResume.java)
 
 
 
