@@ -59,7 +59,7 @@ Reference materials
 - chained exceptions✅
 
 ### Moderate Topics
-- Multithreaded Programming(Traditional)
+- Multithreaded Programming(Traditional)✅
 - Multithreading using fork/join(Chapter 28)
 - Enumerations, Autoboxing and Annotations
 - Generics
@@ -769,7 +769,7 @@ Example - the following casts an integer to byte
 
 
 
-https://github.com/zed1025/java-notes/blob/master/.java
+<!-- https://github.com/zed1025/java-notes/blob/master/.java -->
 
 
 
