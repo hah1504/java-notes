@@ -766,6 +766,21 @@ Example - the following casts an integer to byte
   - It is important to understand that a thread’s state may change after the call to getState( ). Thus, depending on the circumstances, the state obtained by calling getState( ) may not reflect the actual state of the thread only a moment later. For this (and other) reasons, getState( ) is not intended to provide a means of synchronizing threads. It’s primarily used for debugging or for profiling a thread’s run-time characteristics.
 
 
+### Java I/O Basics
+- Java programs perform I/O through streams. 
+- A stream is an abstraction that either produces or consumes information. 
+- A stream is linked to a physical device by the Java I/O system. 
+- Java also provides buffer- and channel-based I/O, which is defined in `java.nio` and its subpackages.
+- Java defines two types of streams: byte and character. 
+  - Byte streams provide a convenient means for handling input and output of bytes. Byte streams are used, for example, when reading or writing binary data. 
+  - Character streams provide a convenient means for handling input and output of characters. They use Unicode and, therefore, can be internationalized.
+- Reading Console Input
+  - [Reading Character fron console using BufferedReader](https://github.com/zed1025/java-notes/blob/master/BRRead.java)
+  - [Reading Strings using BufferedReader](https://github.com/zed1025/java-notes/blob/master/BRReadLines.java)
+  - [Tiny Editor](https://github.com/zed1025/java-notes/blob/master/tinyEdit.java)
+- Writing Console Output
+  - System.out is a byte-stream
+  - [PrintWriter Demo](https://github.com/zed1025/java-notes/blob/master/PrintWriterDemo.java)
 
 
 
@@ -826,6 +841,7 @@ Example - the following casts an integer to byte
 - [Correct Producer Consumer](https://github.com/zed1025/java-notes/blob/master/producer_consumer_c.java)
 - [Deadlock](https://github.com/zed1025/java-notes/blob/master/deadlock.java)
 - [Suspend Resume](https://github.com/zed1025/java-notes/blob/master/SuspendResume.java)
+- [Reading Character fron console using BufferedReader](https://github.com/zed1025/java-notes/blob/master/BRRead.java)
 
 
 
