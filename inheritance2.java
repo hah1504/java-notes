@@ -19,8 +19,13 @@ class A {
 
     void display4() {
         System.out.println("From display4()");
+        System.out.println("Private variable b = "+b);
     }
 
+    //only class members can access display3()
+    void displayFromClass() {
+        display3();
+    }
 }
 
 

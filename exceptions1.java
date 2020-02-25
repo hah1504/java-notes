@@ -8,6 +8,7 @@ class exceptions1 {
       d = 0;
       a = 42 / d;
       System.out.println("This will not be printed.");
+      System.out.println(d + "\n"+ a);
     } catch (ArithmeticException e) { // catch divide-by-zero error
       System.out.println("Division by zero.");
     //   e.printStackTrace();
